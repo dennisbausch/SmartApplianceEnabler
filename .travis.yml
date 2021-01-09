@@ -24,7 +24,8 @@ before_install:
     sudo ./aws/install &&
     export PATH=$PWD/node-v10.17.0-linux-x64/bin:$PATH
 script:
-  - mvn package -B -Ptravis,web &&
+  - ci/buildRaspiOsSaeImage.sh &&
+    mvn package -B -Ptravis,web &&
     aws ec2 start-instances --instance-ids $AWS_INSTANCE_ID &&
     pushd docker &&
     cp ../target/SmartApplianceEnabler*.war sae-ci/SmartApplianceEnabler.war &&
